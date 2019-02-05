@@ -1,0 +1,30 @@
+global:
+  scrape_interval:     1s
+  evaluation_interval: 5s
+
+  external_labels:
+    monitor: 'hyperflow'
+
+scrape_configs:
+
+  - job_name: 'pushgateway'
+    static_configs:
+      - targets: [
+          'prometheus_pushgateway:9091'
+      ]
+    honor_labels: true
+
+  - job_name: 'hyperflow-ec2-status-reporter'
+    scrape_interval: 500ms
+    static_configs:
+      - targets: [
+          'hyperflow:3001'
+      ]
+
+  - job_name: 'hyperflow-master-monitor'
+    static_configs:
+      - targets: [
+          'hyperflow:3002',
+          'hyperflow:3003',
+          'hyperflow:3004'
+      ]
